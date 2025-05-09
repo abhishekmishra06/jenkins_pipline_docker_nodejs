@@ -1,0 +1,28 @@
+node {
+    // Environment variables
+    def REPO_URL = 'https://github.com/abhishekmishra06/jenkins_pipline_docker_nodejs.git'
+
+    try {
+        stage('Checkout Code') {
+            // Checkout the Node.js app from GitHub
+            git branch: 'master', url: "${REPO_URL}"
+        }
+
+        stage('Install Dependencies') {
+            // Install Node.js dependencies
+            sh 'npm install'
+        }
+
+        stage('Start App') {
+            // Start the app in background using nohup
+            sh 'nohup npm start &'
+            echo 'Node.js app started in background...'
+        }
+
+    } finally {
+        stage('Cleanup') {
+            // Example cleanup (add process killing if needed)
+            echo 'Cleaning up after build...'
+        }
+    }
+}
